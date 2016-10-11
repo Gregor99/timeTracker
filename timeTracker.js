@@ -7,7 +7,7 @@ var weekly_progress_remaining = weekly_quota - weekly_progress_done;
 
 $(document).ready(function(){ 
 	$("h1").addClass("animated bounce"); 
-	$("#date").html(date.toLocaleDateString());
+	$("#date").html(moment(date).locale('sl').format('dddd DD.MM.YYYY'));
   
 	$("#toggle").click(function(){
 		if(!startTime) {
@@ -25,6 +25,8 @@ $(document).ready(function(){
 
 	$("#progress_bar_done").css("width", ((100 * weekly_progress_done/weekly_quota) + "%"));
 	$("#progress_bar_remaining").css("width", ((100 * weekly_progress_remaining/weekly_quota) + "%"));
+
+	console.log(moment().locale());
 });
 
 function updateClock ( )
