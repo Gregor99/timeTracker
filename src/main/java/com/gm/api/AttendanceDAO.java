@@ -8,31 +8,31 @@ import java.util.List;
 /**
  * Created by gregor on 26.10.2016.
  */
-public class DayDAO extends AbstractDAO<Day> {
+public class AttendanceDAO extends AbstractDAO<Attendance> {
 
-        public DayDAO(SessionFactory sessionFactory) {
+        public AttendanceDAO(SessionFactory sessionFactory) {
             super(sessionFactory);
         }
 
-        public List<Day> findAll() {
+        public List<Attendance> findAll() {
             return list(namedQuery("findAll"));
         }
 
-        public List<Day> findByUser(Integer idUser) {
+        public List<Attendance> findByUser(Integer idUser) {
             return list(namedQuery("findByUser").setParameter("idUser", idUser));
         }
 
-        public Day findById(Integer idDay) {
+        public Attendance findById(Integer idDay) {
             return get(idDay);
         }
 
-        public Day saveToDataBase(Day Day) {
-            currentSession().save(Day);
-            return Day;
+        public Attendance saveToDataBase(Attendance Attendance) {
+            currentSession().save(Attendance);
+            return Attendance;
         }
 
         public void deleteFromDataBase(Integer idDay) {
-            currentSession().delete(new Day(idDay));
+            currentSession().delete(new Attendance(idDay));
         }
 
 //    public Holiday edit (Integer idHolidayOld, Holiday holidayNew) {

@@ -1,7 +1,7 @@
 package com.gm;
 
-import com.gm.api.Day;
-import com.gm.api.DayDAO;
+import com.gm.api.Attendance;
+import com.gm.api.AttendanceDAO;
 import com.gm.resources.DayResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
@@ -12,7 +12,7 @@ import io.dropwizard.setup.Environment;
 public class TimeTrackerApplication extends Application<TimeTrackerConfiguration> {
 
     private final HibernateBundle<TimeTrackerConfiguration> hibernateBundle =
-            new HibernateBundle<TimeTrackerConfiguration>(Day.class) {
+            new HibernateBundle<TimeTrackerConfiguration>(Attendance.class) {
 
                 @Override
                 public PooledDataSourceFactory getDataSourceFactory(TimeTrackerConfiguration timeTrackerConfiguration) {
@@ -38,9 +38,9 @@ public class TimeTrackerApplication extends Application<TimeTrackerConfiguration
     public void run(final TimeTrackerConfiguration configuration,
                     final Environment environment) {
 
-        final DayDAO dayDAO = new DayDAO(hibernateBundle.getSessionFactory());
+        final AttendanceDAO attendanceDAO = new AttendanceDAO(hibernateBundle.getSessionFactory());
 
-        environment.jersey().register(new DayResource(dayDAO));
+        environment.jersey().register(new DayResource(attendanceDAO));
     }
 
 }

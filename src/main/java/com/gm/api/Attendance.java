@@ -12,12 +12,12 @@ import javax.persistence.*;
 @Table(name = "attendance")
 @NamedQueries({
         @NamedQuery(name = "findAll",
-                query = "select a from attendance a"),
+                query = "select a from Attendance a"),
 
         @NamedQuery(name = "findByUser",
-                query = "select a from attendance a where id_user = :id_user")
+                query = "select a from Attendance a where id_user = :id_user")
 })
-public class Day {
+public class Attendance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,11 +28,11 @@ public class Day {
     private Integer idUser;
 
 
-    public Day() {}
+    public Attendance() {}
 
-    public Day(Integer idDay) { this.idDay = idDay;  }
+    public Attendance(Integer idDay) { this.idDay = idDay;  }
 
-    public Day(Integer idDay, Integer idUser) {
+    public Attendance(Integer idDay, Integer idUser) {
         this.idDay = idDay;
         this.idUser = idUser;
     }

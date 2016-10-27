@@ -13,5 +13,5 @@ database:
     user: time_tracking_app
     # the password
     password: tta676
-    # the JDBC URL; the database is called holidays
+    # the JDBC URL; the database is called Time_tracking
     url: jdbc:mysql://localhost:3306/Time_tracking

@@ -1,7 +1,7 @@
 package com.gm.resources;
 
-import com.gm.api.Day;
-import com.gm.api.DayDAO;
+import com.gm.api.Attendance;
+import com.gm.api.AttendanceDAO;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.ws.rs.GET;
@@ -18,15 +18,15 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class DayResource {
 
-    private final DayDAO dayDAO;
+    private final AttendanceDAO attendanceDAO;
 
-    public DayResource(DayDAO dDAO) {
-        this.dayDAO = dDAO;
+    public DayResource(AttendanceDAO dDAO) {
+        this.attendanceDAO = dDAO;
     }
 
     @GET
     @UnitOfWork
-    public List<Day> viewAll() {
-        return dayDAO.findAll();
+    public List<Attendance> viewAll() {
+        return attendanceDAO.findAll();
     }
 }
