@@ -1,0 +1,2 @@
+cd /home/gregor/IdeaProjects/TimeTracker
+java -jar target/timeTracker-1.0-SNAPSHOT.jar server config.yml
