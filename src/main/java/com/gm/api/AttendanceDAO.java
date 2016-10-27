@@ -22,8 +22,8 @@ public class AttendanceDAO extends AbstractDAO<Attendance> {
             return list(namedQuery("findByUser").setParameter("idUser", idUser));
         }
 
-        public Attendance findById(Integer idDay) {
-            return get(idDay);
+        public Attendance findById(Integer idAttendance) {
+            return get(idAttendance);
         }
 
         public Attendance saveToDataBase(Attendance Attendance) {
@@ -31,8 +31,8 @@ public class AttendanceDAO extends AbstractDAO<Attendance> {
             return Attendance;
         }
 
-        public void deleteFromDataBase(Integer idDay) {
-            currentSession().delete(new Attendance(idDay));
+        public void deleteFromDataBase(Integer idAttendance) {
+            currentSession().delete(new Attendance(idAttendance));
         }
 
 //    public Holiday edit (Integer idHolidayOld, Holiday holidayNew) {

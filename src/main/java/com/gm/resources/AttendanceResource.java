@@ -16,11 +16,11 @@ import java.util.List;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
-public class DayResource {
+public class AttendanceResource {
 
     private final AttendanceDAO attendanceDAO;
 
-    public DayResource(AttendanceDAO dDAO) {
+    public AttendanceResource(AttendanceDAO dDAO) {
         this.attendanceDAO = dDAO;
     }
 

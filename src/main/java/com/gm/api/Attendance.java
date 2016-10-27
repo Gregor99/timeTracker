@@ -22,7 +22,7 @@ public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_attendance")
-    private Integer idDay;
+    private Integer idAttendance;
 
     @Column(name = "id_user")
     private Integer idUser;
@@ -30,20 +30,20 @@ public class Attendance {
 
     public Attendance() {}
 
-    public Attendance(Integer idDay) { this.idDay = idDay;  }
+    public Attendance(Integer idAttendance) { this.idAttendance = idAttendance;  }
 
-    public Attendance(Integer idDay, Integer idUser) {
-        this.idDay = idDay;
+    public Attendance(Integer idAttendance, Integer idUser) {
+        this.idAttendance = idAttendance;
         this.idUser = idUser;
     }
 
 
     @JsonProperty
-    public Integer getIdDay() { return this.idDay; }
+    public Integer getIdAttendance() { return this.idAttendance; }
 
     @JsonProperty
-    public void setIdDay(Integer idDay) {
-        this.idDay = idDay;
+    public void setIdAttendance(Integer idAttendance) {
+        this.idAttendance = idAttendance;
     }
 
     @JsonProperty
