@@ -17,7 +17,7 @@ import java.util.List;
  * Created by gregor on 26.10.2016.
  */
 
-@Path("/")
+@Path("/track")
 @Produces(MediaType.APPLICATION_JSON)
 public class AttendanceResource {
 
@@ -36,8 +36,8 @@ public class AttendanceResource {
     @GET
     @UnitOfWork
     @Path("/{username}")
-    public List<Attendance> today(@PathParam(value = "username") String userName) {
-        return attendanceDAO.findByUserAndDate(Integer.valueOf(userName), new LocalDate());
+    public List<Attendance> today(@PathParam("username") Integer userName) {
+        return attendanceDAO.findByUserAndDate(userName, new LocalDate());
     }
 }
 

@@ -4,6 +4,7 @@ import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
 import org.joda.time.LocalDate;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,11 +21,11 @@ public class AttendanceDAO extends AbstractDAO<Attendance> {
         }
 
         public List<Attendance> findByUser(Integer idUser) {
-            return list(namedQuery("findByUser").setParameter("idUser", idUser));
+            return list(namedQuery("findByUser").setParameter("id_user", idUser));
         }
 
         public List<Attendance> findByUserAndDate(Integer idUser, LocalDate date) {
-            return list(namedQuery("findByUser&Date").setParameter("idUser", idUser).setParameter("date", date));
+            return list(namedQuery("findByUserAndDate").setParameter("id_user", idUser).setParameter("date", date.toDate()));
         }
 
         public Attendance findById(Integer idAttendance) {

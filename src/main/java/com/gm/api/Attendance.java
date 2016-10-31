@@ -18,7 +18,7 @@ import javax.persistence.*;
 
         @NamedQuery(name = "findByUser",
                 query = "select a from Attendance a where id_user = :id_user"),
-        @NamedQuery(name = "findByUser&Date",
+        @NamedQuery(name = "findByUserAndDate",
                 query = "select a from Attendance a where id_user = :id_user and date = :date")
 })
 public class Attendance {
@@ -51,9 +51,10 @@ public class Attendance {
 
     public Attendance(Integer idAttendance) { this.idAttendance = idAttendance;  }
 
-    public Attendance(Integer idAttendance, Integer idUser) {
+    public Attendance(Integer idAttendance, Integer idUser, LocalDate date) {
         this.idAttendance = idAttendance;
         this.idUser = idUser;
+        this.date = date;
     }
 
 
@@ -76,7 +77,7 @@ public class Attendance {
     }
 
     @JsonProperty
-    public LocalDate getDate() { return date; }
+    public LocalDate getDate() { return this.date; }
 
     @JsonProperty
     public void setDate(LocalDate date) { this.date = date; }
