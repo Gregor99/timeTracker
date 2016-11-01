@@ -1,10 +1,10 @@
 package com.gm.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import java.time.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by gregor on 26.10.2016.
@@ -35,7 +35,7 @@ public class Attendance {
     private LocalDate date;
 
     @Column(name = "time_work_start")
-    private DateTime timeWorkStart;
+    private LocalDateTime timeWorkStart;
 
 //    @Column(name = "time_lunch_start")
 //    private DateTime timeLunchStart;
@@ -44,7 +44,7 @@ public class Attendance {
 //    private DateTime timeLunchEnd;
 
     @Column(name = "time_work_end")
-    private DateTime timeWorkEnd;
+    private LocalDateTime timeWorkEnd;
 
 
     public Attendance() {}
@@ -56,6 +56,12 @@ public class Attendance {
         this.idUser = idUser;
         this.date = date;
     }
+
+//    public Attendance(Integer idAttendance, Integer idUser, Date date) {
+//        this.idAttendance = idAttendance;
+//        this.idUser = idUser;
+//        this.date = new LocalDate();
+//    }
 
 
     @JsonProperty
@@ -83,22 +89,22 @@ public class Attendance {
     public void setDate(LocalDate date) { this.date = date; }
 
     @JsonProperty
-    public DateTime getTimeWorkStart() {
+    public LocalDateTime getTimeWorkStart() {
         return this.timeWorkStart;
     }
 
     @JsonProperty
-    public void setTimeWorkStart(DateTime timeWorkStart) {
+    public void setTimeWorkStart(LocalDateTime timeWorkStart) {
         this.timeWorkStart = timeWorkStart;
     }
 
     @JsonProperty
-    public DateTime getTimeWorkEnd() {
+    public LocalDateTime getTimeWorkEnd() {
         return this.timeWorkEnd;
     }
 
     @JsonProperty
-    public void setTimeWorkEnd(DateTime timeWorkEnd) {
+    public void setTimeWorkEnd(LocalDateTime timeWorkEnd) {
         this.timeWorkEnd = timeWorkEnd;
     }
 
