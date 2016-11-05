@@ -3,15 +3,13 @@ package com.gm.resources;
 import com.gm.api.Attendance;
 import com.gm.api.AttendanceDAO;
 import io.dropwizard.hibernate.UnitOfWork;
-import org.jboss.logging.annotations.Param;
-import java.time.LocalDate;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Date;
+import org.joda.time.*;
 import java.util.List;
 
 /**
@@ -38,7 +36,7 @@ public class AttendanceResource {
     @UnitOfWork
     @Path("/{username}")
     public List<Attendance> today(@PathParam("username") Integer userName) {
-        return attendanceDAO.findByUserAndDate(userName, new LocalDate();
+        return attendanceDAO.findByUserAndDate(userName, new LocalDate());
     }
 }
 

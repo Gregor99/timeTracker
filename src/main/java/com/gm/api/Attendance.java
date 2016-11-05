@@ -1,10 +1,10 @@
 package com.gm.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.*;
+import org.joda.time.*;
+
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * Created by gregor on 26.10.2016.
