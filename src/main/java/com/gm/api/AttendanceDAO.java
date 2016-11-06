@@ -40,9 +40,9 @@ public class AttendanceDAO extends AbstractDAO<Attendance> {
             currentSession().delete(new Attendance(idAttendance));
         }
 
-//    public Holiday edit (Integer idHolidayOld, Holiday holidayNew) {
-//        holidayNew.setIdUser(idHolidayOld);
-//        currentSession().update(holidayNew);
-//        return holidayNew;
-//    }
+    public Attendance edit (Integer idAttendanceOld, Attendance AttendanceNew) {
+        AttendanceNew.setIdAttendance(idAttendanceOld);
+        currentSession().update(AttendanceNew);
+        return AttendanceNew;
+    }
 }

@@ -57,6 +57,12 @@ public class Attendance {
         this.date = date;
     }
 
+    public Attendance(Integer idUser, LocalDate date, LocalDateTime timeWorkStart) {
+        this.idUser = idUser;
+        this.date = date;
+        this.timeWorkStart = timeWorkStart;
+    }
+
 //    public Attendance(Integer idAttendance, Integer idUser, Date date) {
 //        this.idAttendance = idAttendance;
 //        this.idUser = idUser;
