@@ -4,12 +4,21 @@ var endTime;
 var weekly_progress_done = 39;
 var weekly_quota = 41.25;
 var weekly_progress_remaining = weekly_quota - weekly_progress_done;
+var username = 1;
+var data;
 
 $(document).ready(function(){ 
 	$("h1").addClass("animated bounce"); 
 	$("#date").html(moment(date).locale('sl').format('dddd DD.MM.YYYY'));
+
+	$.get("http://localhost:8080/track/" + username, function(response) {
+	    data = response;
+	});
+
+	console.log("data: " + data);
   
 	$("#toggle").click(function(){
+
 		if(!startTime) {
 			startTime = new Date();
 			$("#startTime").html("Prihod ob " + formatHoursMinutes(startTime.getHours(), startTime.getMinutes()));
@@ -29,7 +38,7 @@ $(document).ready(function(){
 	console.log(moment().locale());
 });
 
-function updateClock ( )
+function updateClock()
 {
   var currentTime = new Date ( );
 
