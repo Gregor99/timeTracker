@@ -10,6 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.joda.time.*;
 
 import java.util.ArrayList;
@@ -38,32 +40,32 @@ public class AttendanceResource {
     @GET
     @UnitOfWork
     @Path("/{username}")
-    public List<Attendance> today(@PathParam("username") Integer userName) {
-        return attendanceDAO.findByUserAndDate(userName, new LocalDate());
+    public Response today(@PathParam("username") Integer userName) {
+        return Response.ok(attendanceDAO.findByUserAndDate(userName, new LocalDate())).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
     }
 
     @POST
     @UnitOfWork
     @Path("/{username}")
-    public List<Attendance> trackTime(@PathParam("username") Integer userName) {
+    public Response trackTime(@PathParam("username") Integer userName) {
         List<Attendance> todaysList = attendanceDAO.findByUserAndDate(userName, new LocalDate());
         Attendance todaysAttendance;
         if(todaysList.isEmpty()) {
 
             todaysAttendance = new Attendance(userName, new LocalDate(), new LocalDateTime());
             todaysList.add(attendanceDAO.saveToDataBase(todaysAttendance));
-            return todaysList;
+            return Response.ok(todaysList).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
 
         } else if(todaysList.size() == 1 && todaysList.get(0).getTimeWorkEnd() == null) {
 
             todaysAttendance = todaysList.get(0);
             todaysAttendance.setTimeWorkEnd(new LocalDateTime());
             attendanceDAO.edit(todaysAttendance.getIdAttendance(), todaysAttendance);
-            return todaysList;
+            return Response.ok(todaysList).build();
 
         }
         //TODO return wrong request al neki.
-        return null;
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
 }

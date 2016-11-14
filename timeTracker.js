@@ -12,10 +12,12 @@ $(document).ready(function(){
 	$("#date").html(moment(date).locale('sl').format('dddd DD.MM.YYYY'));
 
 	$.get("http://localhost:8080/track/" + username, function(response) {
-	    data = response;
-	});
+	    data = response[0];
+	    startTime = response[0].timeWorkStart;
+	    console.log("data: " + response[0].timeWorkStart);
+	}, "json");
 
-	console.log("data: " + data);
+
   
 	$("#toggle").click(function(){
 
