@@ -4,31 +4,35 @@ var endTime;
 var weekly_progress_done = 39;
 var weekly_quota = 41.25;
 var weekly_progress_remaining = weekly_quota - weekly_progress_done;
-var username = 1;
+var username = 3;
 var data;
 
 $(document).ready(function(){ 
-	$("h1").addClass("animated bounce"); 
-	$("#date").html(moment(date).locale('sl').format('dddd DD.MM.YYYY'));
+	$("h1").addClass("animated bounce");
 
-	$.get("http://localhost:8080/track/" + username, function(response) {
-	    data = response[0];
-	    startTime = response[0].timeWorkStart;
-	    console.log("data: " + response[0].timeWorkStart);
+	$.get("http://localhost:8080/track/" + username, function(getResponse) {
+        handleResponse(getResponse[0]);
 	}, "json");
 
+    $("#date").html(moment(date).locale('sl').format('dddd DD.MM.YYYY'));
 
   
 	$("#toggle").click(function(){
 
 		if(!startTime) {
-			startTime = new Date();
-			$("#startTime").html("Prihod ob " + formatHoursMinutes(startTime.getHours(), startTime.getMinutes()));
+
+			$.post("http://localhost:8080/track/" + username, function(getResponse) {
+                    handleResponse(getResponse[0]);
+            	}, "json");
+
 			$("#status").html("Prisoten");
 			$("#toggle").html("Odhod");
-		} else {
-			endTime = new Date();
-			$("#endTime").html("Odhod ob " + formatHoursMinutes(endTime.getHours(), endTime.getMinutes()));
+		} else if(!endTime) {
+
+			$.post("http://localhost:8080/track/" + username, function(getResponse) {
+                    handleResponse(getResponse[0]);
+                }, "json");
+
 			$("#status").html("Končal za danes");
 			console.log((endTime.getTime() - startTime.getTime())/1000);
 		}
@@ -68,6 +72,28 @@ function formatHoursMinutes(hours, minutes) {
 	var formatedMinutes = ( minutes < 10 ? "0" : "" ) + minutes;
 	
 	return formatedHours + ":" + formatedMinutes;
+}
+
+function handleResponse(data) {
+            if(data) {
+                //TODO koda za start in end time, če jo dobimo iz baze
+                console.log("date response: " + data.date);
+                date = new Date(data.date[0], data.date[1], data.date[2]);
+                if(null != data.timeWorkStart) {
+                    console.log("timeStart response: " + data.timeWorkStart);
+                    startTime = new Date();
+                    startTime.setHours(data.timeWorkStart[3]);
+                    startTime.setMinutes(data.timeWorkStart[4]);
+                    $("#startTime").html("Prihod ob " + formatHoursMinutes(startTime.getHours(), startTime.getMinutes()));
+                }
+                if(null != data.timeWorkEnd) {
+                    console.log("timeEnd response: " + data.timeWorkEnd);
+                    endTime = new Date();
+                    endTime.setHours(data.timeWorkEnd[3]);
+                    endTime.setMinutes(data.timeWorkEnd[4]);
+                    $("#endTime").html("Odhod ob " + formatHoursMinutes(endTime.getHours(), endTime.getMinutes()));
+                }
+            }
 }
 
 
