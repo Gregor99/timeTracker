@@ -61,11 +61,11 @@ public class AttendanceResource {
             todaysAttendance = todaysList.get(0);
             todaysAttendance.setTimeWorkEnd(new LocalDateTime());
             attendanceDAO.edit(todaysAttendance.getIdAttendance(), todaysAttendance);
-            return Response.ok(todaysList).build();
+            return Response.ok(todaysList).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
 
         }
         //TODO return wrong request al neki.
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.NOT_FOUND).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
     }
 
 }
