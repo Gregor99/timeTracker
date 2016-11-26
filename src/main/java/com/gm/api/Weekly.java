@@ -15,7 +15,6 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "findAll",
                 query = "select a from weekly_hours a"),
-
         @NamedQuery(name = "findByUser",
                 query = "select a from weekly_hours a where id_user = :id_user"),
         @NamedQuery(name = "findByUserAndDate",

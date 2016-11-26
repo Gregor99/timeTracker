@@ -4,7 +4,7 @@ var endTime;
 var weekly_progress_done = 39;
 var weekly_quota = 41.25;
 var weekly_progress_remaining = weekly_quota - weekly_progress_done;
-var username = 3;
+var username = 1;
 var data;
 
 $(document).ready(function(){ 
@@ -34,7 +34,7 @@ $(document).ready(function(){
                 }, "json");
 
 			$("#status").html("Končal za danes");
-			console.log((endTime.getTime() - startTime.getTime())/1000);
+			//console.log((endTime.getTime() - startTime.getTime())/1000);
 		}
 	}); 
 
@@ -85,6 +85,8 @@ function handleResponse(data) {
                     startTime.setHours(data.timeWorkStart[3]);
                     startTime.setMinutes(data.timeWorkStart[4]);
                     $("#startTime").html("Prihod ob " + formatHoursMinutes(startTime.getHours(), startTime.getMinutes()));
+                    $("#status").html("Prisoten");
+                    $("#toggle").html("Odhod");
                 }
                 if(null != data.timeWorkEnd) {
                     console.log("timeEnd response: " + data.timeWorkEnd);
@@ -92,8 +94,10 @@ function handleResponse(data) {
                     endTime.setHours(data.timeWorkEnd[3]);
                     endTime.setMinutes(data.timeWorkEnd[4]);
                     $("#endTime").html("Odhod ob " + formatHoursMinutes(endTime.getHours(), endTime.getMinutes()));
+                    $("#status").html("Končal za danes");
                 }
             }
+
 }
 
 

@@ -6,6 +6,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -44,6 +45,7 @@ public class AttendanceResource {
         return Response.ok(attendanceDAO.findByUserAndDate(userName, new LocalDate())).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
     }
 
+    //start or end work
     @POST
     @UnitOfWork
     @Path("/{username}")
@@ -66,6 +68,36 @@ public class AttendanceResource {
         }
         //TODO return wrong request al neki.
         return Response.status(Response.Status.NOT_FOUND).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
+    }
+
+    // cancel last start or end
+    @PUT
+    @UnitOfWork
+    @Path("/{username}")
+    public Response cancelLastTime(@PathParam("username") Integer userName) {
+        List<Attendance> todaysList = attendanceDAO.findByUserAndDate(userName, new LocalDate());
+        Attendance todaysAttendance;
+        if(todaysList.isEmpty()) {
+
+            return Response.status(Response.Status.NOT_FOUND).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
+
+        } else if(todaysList.size() == 1 && todaysList.get(0).getTimeWorkEnd() == null) {
+
+            attendanceDAO.deleteFromDataBase(todaysList.get(0).getIdAttendance());
+            return Response.ok().header("Access-Control-Allow-Origin", "http://localhost:63342").build();
+
+        } else if(todaysList.size() == 1 && todaysList.get(0).getTimeWorkEnd() != null) {
+
+            todaysAttendance = todaysList.get(0);
+            todaysAttendance.setTimeWorkEnd(null);
+            attendanceDAO.edit(todaysAttendance.getIdAttendance(), todaysAttendance);
+
+            return Response.ok(todaysList).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
+
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
+
     }
 
 }
