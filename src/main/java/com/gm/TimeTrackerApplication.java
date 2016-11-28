@@ -2,7 +2,9 @@ package com.gm;
 
 import com.gm.api.Attendance;
 import com.gm.api.AttendanceDAO;
+import com.gm.api.WeeklyDAO;
 import com.gm.resources.AttendanceResource;
+import com.gm.resources.WeeklyResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -39,8 +41,10 @@ public class TimeTrackerApplication extends Application<TimeTrackerConfiguration
                     final Environment environment) {
 
         final AttendanceDAO attendanceDAO = new AttendanceDAO(hibernateBundle.getSessionFactory());
+        final WeeklyDAO weeklyDAO = new WeeklyDAO(hibernateBundle.getSessionFactory());
 
-        environment.jersey().register(new AttendanceResource(attendanceDAO));
+        environment.jersey().register(new AttendanceResource(attendanceDAO, weeklyDAO));
+        environment.jersey().register(new WeeklyResource(weeklyDAO));
     }
 
 }

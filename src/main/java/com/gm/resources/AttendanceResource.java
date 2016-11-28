@@ -2,6 +2,8 @@ package com.gm.resources;
 
 import com.gm.api.Attendance;
 import com.gm.api.AttendanceDAO;
+import com.gm.api.Weekly;
+import com.gm.api.WeeklyDAO;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.ws.rs.GET;
@@ -27,9 +29,11 @@ import java.util.List;
 public class AttendanceResource {
 
     private final AttendanceDAO attendanceDAO;
+    private final WeeklyDAO weeklyDAO;
 
-    public AttendanceResource(AttendanceDAO dDAO) {
+    public AttendanceResource(AttendanceDAO dDAO, WeeklyDAO wDAO) {
         this.attendanceDAO = dDAO;
+        this.weeklyDAO = wDAO;
     }
 
     @GET
@@ -98,6 +102,11 @@ public class AttendanceResource {
 
         return Response.status(Response.Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
 
+    }
+
+    public void getWeeklyHours(Integer userName) {
+
+        List<Weekly> weeks = weeklyDAO.findByUserAndCurrentDate(userName);
     }
 
 }
