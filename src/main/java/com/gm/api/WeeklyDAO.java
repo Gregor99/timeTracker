@@ -30,7 +30,7 @@ public List<Weekly> findByUserAndDate(Integer idUser, LocalDate date) {
     public List<Weekly> findByUserAndCurrentDate(Integer idUser) {
         LocalDate date = new LocalDate().withDayOfWeek(1);
         System.out.println("prvi dan tega tedna: " + date);
-                return list(namedQuery("findByUserAndDate").setParameter("id_user", idUser).setParameter("date", date));
+                return list(namedQuery("findWeeklyByUserAndDate").setParameter("id_user", idUser).setParameter("date", date));
         }
 
 public Weekly findById(Integer idAttendance) {

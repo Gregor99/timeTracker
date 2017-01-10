@@ -45,4 +45,16 @@ public class AttendanceDAO extends AbstractDAO<Attendance> {
         currentSession().update(AttendanceNew);
         return AttendanceNew;
     }
+
+    public void getWeeklyHours(Integer idUser) {
+        Period sum = new Period();
+        LocalDate date = new LocalDate().withDayOfWeek(1);
+        List<Attendance> week =  list(namedQuery("findCurrentWeek").setParameter("id_user", idUser).setParameter("date", date));
+        for (Attendance day : week) {
+            Period timeToday = new Period(day.getTimeWorkStart(), day.getTimeWorkEnd());
+            sum.plus(timeToday);
+        }
+
+        System.out.println("vsota ur: " + sum.toString());
+    }
 }

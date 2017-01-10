@@ -19,7 +19,9 @@ import javax.persistence.*;
         @NamedQuery(name = "findByUser",
                 query = "select a from Attendance a where id_user = :id_user"),
         @NamedQuery(name = "findByUserAndDate",
-                query = "select a from Attendance a where id_user = :id_user and date = :date")
+                query = "select a from Attendance a where id_user = :id_user and date = :date"),
+        @NamedQuery(name = "findCurrentWeek",
+                query = "select a from Attendance a where id_user = :id_user and date >= :date")
 })
 public class Attendance {
 

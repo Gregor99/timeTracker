@@ -29,11 +29,9 @@ import java.util.List;
 public class AttendanceResource {
 
     private final AttendanceDAO attendanceDAO;
-    private final WeeklyDAO weeklyDAO;
 
-    public AttendanceResource(AttendanceDAO dDAO, WeeklyDAO wDAO) {
+    public AttendanceResource(AttendanceDAO dDAO) {
         this.attendanceDAO = dDAO;
-        this.weeklyDAO = wDAO;
     }
 
     @GET
@@ -55,6 +53,7 @@ public class AttendanceResource {
     @Path("/{username}")
     public Response trackTime(@PathParam("username") Integer userName) {
         List<Attendance> todaysList = attendanceDAO.findByUserAndDate(userName, new LocalDate());
+
         Attendance todaysAttendance;
         if(todaysList.isEmpty()) {
 
@@ -67,6 +66,8 @@ public class AttendanceResource {
             todaysAttendance = todaysList.get(0);
             todaysAttendance.setTimeWorkEnd(new LocalDateTime());
             attendanceDAO.edit(todaysAttendance.getIdAttendance(), todaysAttendance);
+            attendanceDAO.getWeeklyHours(userName);
+//            updateWeekly(todaysAttendance.getTimeWorkStart(), todaysAttendance.getTimeWorkEnd());
             return Response.ok(todaysList).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
 
         }
@@ -104,10 +105,10 @@ public class AttendanceResource {
 
     }
 
-    public void getWeeklyHours(Integer userName) {
-
-        List<Weekly> weeks = weeklyDAO.findByUserAndCurrentDate(userName);
-    }
+//    public void getWeeklyHours(Integer userName) {
+//
+//        List<Weekly> weeks = weeklyDAO.findByUserAndCurrentDate(userName);
+//    }
 
 }
 

@@ -43,7 +43,7 @@ public class TimeTrackerApplication extends Application<TimeTrackerConfiguration
         final AttendanceDAO attendanceDAO = new AttendanceDAO(hibernateBundle.getSessionFactory());
         final WeeklyDAO weeklyDAO = new WeeklyDAO(hibernateBundle.getSessionFactory());
 
-        environment.jersey().register(new AttendanceResource(attendanceDAO, weeklyDAO));
+        environment.jersey().register(new AttendanceResource(attendanceDAO));
         environment.jersey().register(new WeeklyResource(weeklyDAO));
     }
 

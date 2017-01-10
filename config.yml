@@ -2,7 +2,7 @@ logging:
   level: INFO
   loggers:
     holidays: DEBUG
-# start the server & app by running: java -jar target/holiday-0.0.1-SNAPSHOT.jar server config.yml
+# start the server & app by running: java -jar target/timeTracker-1.0-SNAPSHOT.jar server config.yml
 # in C:\Users\Gregor\IdeaProjects\TimeTracker
 
 # Database settings.

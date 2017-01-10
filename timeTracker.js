@@ -4,7 +4,7 @@ var endTime;
 var weekly_progress_done = 39;
 var weekly_quota = 41.25;
 var weekly_progress_remaining = weekly_quota - weekly_progress_done;
-var username = 1;
+var username = 3;
 var data;
 
 $(document).ready(function(){ 

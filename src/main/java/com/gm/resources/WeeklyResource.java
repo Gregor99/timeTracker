@@ -37,7 +37,8 @@ public class WeeklyResource {
     @Path("/{username}")
     public Response firstDayOfWeek(@PathParam("username") Integer userName) {
 
-        return Response.ok(weeklyDAO.findByUserAndCurrentDate(userName)).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
+//        List<Weekly> weekly = weeklyDAO.findByUserAndCurrentDate(userName);
+        return Response.ok(weeklyDAO.findByUserAndCurrentDate(userName).get(0)).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
     }
 
 }
