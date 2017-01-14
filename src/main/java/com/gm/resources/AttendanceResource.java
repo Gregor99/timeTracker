@@ -6,6 +6,7 @@ import com.gm.api.Weekly;
 import com.gm.api.WeeklyDAO;
 import io.dropwizard.hibernate.UnitOfWork;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -42,6 +43,7 @@ public class AttendanceResource {
 
     @GET
     @UnitOfWork
+    @PermitAll
     @Path("/{username}")
     public Response today(@PathParam("username") Integer userName) {
         return Response.ok(attendanceDAO.findByUserAndDate(userName, new LocalDate())).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
@@ -50,6 +52,7 @@ public class AttendanceResource {
     //start or end work
     @POST
     @UnitOfWork
+    @PermitAll
     @Path("/{username}")
     public Response trackTime(@PathParam("username") Integer userName) {
         List<Attendance> todaysList = attendanceDAO.findByUserAndDate(userName, new LocalDate());
@@ -78,6 +81,7 @@ public class AttendanceResource {
     // cancel last start or end
     @PUT
     @UnitOfWork
+    @PermitAll
     @Path("/{username}")
     public Response cancelLastTime(@PathParam("username") Integer userName) {
         List<Attendance> todaysList = attendanceDAO.findByUserAndDate(userName, new LocalDate());

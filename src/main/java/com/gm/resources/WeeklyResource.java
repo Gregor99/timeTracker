@@ -7,6 +7,7 @@ import com.gm.api.WeeklyDAO;
 import io.dropwizard.hibernate.UnitOfWork;
 import org.joda.time.LocalDate;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -34,6 +35,7 @@ public class WeeklyResource {
 
     @GET
     @UnitOfWork
+    @PermitAll
     @Path("/{username}")
     public Response firstDayOfWeek(@PathParam("username") Integer userName) {
 

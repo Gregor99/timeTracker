@@ -1,11 +1,12 @@
 package com.gm;
 
-import com.gm.api.Attendance;
-import com.gm.api.AttendanceDAO;
-import com.gm.api.WeeklyDAO;
+import com.gm.api.*;
 import com.gm.resources.AttendanceResource;
 import com.gm.resources.WeeklyResource;
+import com.gm.security.TimeTrackerAuthenticator;
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -45,6 +46,14 @@ public class TimeTrackerApplication extends Application<TimeTrackerConfiguration
 
         environment.jersey().register(new AttendanceResource(attendanceDAO));
         environment.jersey().register(new WeeklyResource(weeklyDAO));
+
+        environment.jersey().register(
+            new AuthDynamicFeature (
+                new BasicCredentialAuthFilter.Builder<User>().setAuthenticator (
+                    new TimeTrackerAuthenticator()
+                ).buildAuthFilter()
+            )
+        );
     }
 
 }
