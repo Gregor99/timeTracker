@@ -1,9 +1,7 @@
 package com.gm.resources;
 
-import com.gm.api.Attendance;
-import com.gm.api.AttendanceDAO;
-import com.gm.api.Weekly;
-import com.gm.api.WeeklyDAO;
+import com.gm.api.*;
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.annotation.security.PermitAll;
@@ -13,8 +11,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import org.joda.time.*;
 
@@ -32,6 +32,7 @@ public class AttendanceResource {
     private final AttendanceDAO attendanceDAO;
 
     public AttendanceResource(AttendanceDAO dDAO) {
+
         this.attendanceDAO = dDAO;
     }
 
@@ -45,8 +46,12 @@ public class AttendanceResource {
     @UnitOfWork
     @PermitAll
     @Path("/{username}")
-    public Response today(@PathParam("username") Integer userName) {
-        return Response.ok(attendanceDAO.findByUserAndDate(userName, new LocalDate())).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
+    public Response today(@Context SecurityContext context) {
+        //System.out.println("You are: " + user.getName());
+        User userPrincipal = (User) context.getUserPrincipal();
+        System.out.println("user Je: " + userPrincipal.getName());
+
+        return Response.ok(attendanceDAO.findByUserAndDate(userPrincipal.getIdUser(), new LocalDate())).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
     }
 
     //start or end work
