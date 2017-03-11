@@ -30,14 +30,17 @@ import java.util.List;
 public class AttendanceResource {
 
     private final AttendanceDAO attendanceDAO;
+    private final UserDAO userDAO;
 
-    public AttendanceResource(AttendanceDAO dDAO) {
+    public AttendanceResource(AttendanceDAO aDAO, UserDAO uDAO) {
 
-        this.attendanceDAO = dDAO;
+        this.attendanceDAO = aDAO;
+        this.userDAO = uDAO;
     }
 
     @GET
     @UnitOfWork
+    @Path("/all")
     public List<Attendance> viewAll() {
         return attendanceDAO.findAll();
     }
@@ -45,7 +48,6 @@ public class AttendanceResource {
     @GET
     @UnitOfWork
     @PermitAll
-    @Path("/{username}")
     public Response today(@Context SecurityContext context) {
         //System.out.println("You are: " + user.getName());
         User userPrincipal = (User) context.getUserPrincipal();
@@ -58,14 +60,16 @@ public class AttendanceResource {
     @POST
     @UnitOfWork
     @PermitAll
-    @Path("/{username}")
-    public Response trackTime(@PathParam("username") Integer userName) {
-        List<Attendance> todaysList = attendanceDAO.findByUserAndDate(userName, new LocalDate());
+    public Response trackTime(@Context SecurityContext context) {
+        User user = (User) context.getUserPrincipal();
+        user = userDAO.findByUsername(user.getName());
+
+        List<Attendance> todaysList = attendanceDAO.findByUserAndDate(user.getIdUser(), new LocalDate());
 
         Attendance todaysAttendance;
         if(todaysList.isEmpty()) {
 
-            todaysAttendance = new Attendance(userName, new LocalDate(), new LocalDateTime());
+            todaysAttendance = new Attendance(user.getIdUser(), new LocalDate(), new LocalDateTime());
             todaysList.add(attendanceDAO.saveToDataBase(todaysAttendance));
             return Response.ok(todaysList).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
 
@@ -74,7 +78,7 @@ public class AttendanceResource {
             todaysAttendance = todaysList.get(0);
             todaysAttendance.setTimeWorkEnd(new LocalDateTime());
             attendanceDAO.edit(todaysAttendance.getIdAttendance(), todaysAttendance);
-            attendanceDAO.getWeeklyHours(userName);
+            attendanceDAO.getWeeklyHours(user.getIdUser());
 //            updateWeekly(todaysAttendance.getTimeWorkStart(), todaysAttendance.getTimeWorkEnd());
             return Response.ok(todaysList).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
 
@@ -87,9 +91,11 @@ public class AttendanceResource {
     @PUT
     @UnitOfWork
     @PermitAll
-    @Path("/{username}")
-    public Response cancelLastTime(@PathParam("username") Integer userName) {
-        List<Attendance> todaysList = attendanceDAO.findByUserAndDate(userName, new LocalDate());
+    public Response cancelLastTime(@Context SecurityContext context) {
+        User user = (User) context.getUserPrincipal();
+        user = userDAO.findByUsername(user.getName());
+
+        List<Attendance> todaysList = attendanceDAO.findByUserAndDate(user.getIdUser(), new LocalDate());
         Attendance todaysAttendance;
         if(todaysList.isEmpty()) {
 

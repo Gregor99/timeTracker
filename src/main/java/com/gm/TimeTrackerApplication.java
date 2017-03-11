@@ -47,13 +47,13 @@ public class TimeTrackerApplication extends Application<TimeTrackerConfiguration
         final WeeklyDAO weeklyDAO = new WeeklyDAO(hibernateBundle.getSessionFactory());
         final UserDAO userDAO = new UserDAO(hibernateBundle.getSessionFactory());
 
-        environment.jersey().register(new AttendanceResource(attendanceDAO));
+        environment.jersey().register(new AttendanceResource(attendanceDAO, userDAO));
         environment.jersey().register(new WeeklyResource(weeklyDAO));
 
         environment.jersey().register(
             new AuthDynamicFeature (
                 new BasicCredentialAuthFilter.Builder<User>().setAuthenticator (
-                    new UnitOfWorkAwareProxyFactory(hibernateBundle).create(TimeTrackerAuthenticator.class, UserDAO.class, userDAO)//TimeTrackerAuthenticator(userDAO)
+                    new UnitOfWorkAwareProxyFactory(hibernateBundle).create(TimeTrackerAuthenticator.class, UserDAO.class, userDAO)
                 ).buildAuthFilter()
             )
         );
