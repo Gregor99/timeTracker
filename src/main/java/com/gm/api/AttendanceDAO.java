@@ -40,21 +40,23 @@ public class AttendanceDAO extends AbstractDAO<Attendance> {
             currentSession().delete(new Attendance(idAttendance));
         }
 
-    public Attendance edit (Integer idAttendanceOld, Attendance AttendanceNew) {
-        AttendanceNew.setIdAttendance(idAttendanceOld);
-        currentSession().update(AttendanceNew);
-        return AttendanceNew;
-    }
-
-    public void getWeeklyHours(Integer idUser) {
-        Period sum = new Period();
-        LocalDate date = new LocalDate().withDayOfWeek(1);
-        List<Attendance> week =  list(namedQuery("findCurrentWeek").setParameter("id_user", idUser).setParameter("date", date));
-        for (Attendance day : week) {
-            Period timeToday = new Period(day.getTimeWorkStart(), day.getTimeWorkEnd());
-            sum.plus(timeToday);
+        public Attendance edit (Integer idAttendanceOld, Attendance AttendanceNew) {
+            AttendanceNew.setIdAttendance(idAttendanceOld);
+            currentSession().update(AttendanceNew);
+            return AttendanceNew;
         }
 
-        System.out.println("vsota ur: " + sum.toString());
-    }
+        public Period getWeeklyHours(Integer idUser) {
+            Period sum = new Period();
+            LocalDate date = new LocalDate().withDayOfWeek(1);
+            System.out.println("Ponedeljek: " + date);
+            List<Attendance> week =  list(namedQuery("findCurrentWeek").setParameter("id_user", idUser).setParameter("date", date));
+            for (Attendance day : week) {
+                Period timeToday = new Period(day.getTimeWorkStart(), day.getTimeWorkEnd());
+                sum = timeToday.plus(sum);
+            }
+
+            System.out.println("vsota ur: " + sum.toString());
+            return sum;
+        }
 }

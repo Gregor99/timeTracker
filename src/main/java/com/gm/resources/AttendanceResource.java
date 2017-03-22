@@ -49,11 +49,25 @@ public class AttendanceResource {
     @UnitOfWork
     @PermitAll
     public Response today(@Context SecurityContext context) {
-        //System.out.println("You are: " + user.getName());
         User userPrincipal = (User) context.getUserPrincipal();
         System.out.println("user Je: " + userPrincipal.getName());
 
+        attendanceDAO.getWeeklyHours(userPrincipal.getIdUser());
+
         return Response.ok(attendanceDAO.findByUserAndDate(userPrincipal.getIdUser(), new LocalDate())).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
+    }
+
+    @GET
+    @UnitOfWork
+    @PermitAll
+    @Path("/week")
+    public Response week(@Context SecurityContext context) {
+        User userPrincipal = (User) context.getUserPrincipal();
+        System.out.println("user Je: " + userPrincipal.getName());
+
+        attendanceDAO.getWeeklyHours(userPrincipal.getIdUser());
+
+        return Response.ok(attendanceDAO.getWeeklyHours(userPrincipal.getIdUser())).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
     }
 
     //start or end work
@@ -119,11 +133,5 @@ public class AttendanceResource {
         return Response.status(Response.Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "http://localhost:63342").build();
 
     }
-
-//    public void getWeeklyHours(Integer userName) {
-//
-//        List<Weekly> weeks = weeklyDAO.findByUserAndCurrentDate(userName);
-//    }
-
 }
 
